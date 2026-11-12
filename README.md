@@ -18,7 +18,7 @@ tutorial on professional Flutter development with Clean Architecture and an AI c
 ![Languages](https://img.shields.io/badge/i18n-EN%20%7C%20TR%20%7C%20AR%20(RTL)-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-> 🚧 **In progress:** steps 01–03 of 7 are done. Follow along in [PROGRESS.md](docs/PROGRESS.md).
+> 🚧 **In progress:** steps 01–04 of 7 are done. Follow along in [PROGRESS.md](docs/PROGRESS.md).
 
 ## The same app on four platforms
 
@@ -36,7 +36,7 @@ tutorial on professional Flutter development with Clean Architecture and an AI c
 | 01 | [`step-01-planning`](../../tree/step-01-planning) | Shared product docs, Flutter architecture, ADRs, AI agent rules |
 | 02 | [`step-02-project-structure`](../../tree/step-02-project-structure) | Flutter project, pub workspace, strict analysis, custom source rules, CI |
 | 03 | [`step-03-domain-layer`](../../tree/step-03-domain-layer) | Entities, use cases, sealed `Result` errors |
-| 04 | `step-04-data-layer` | `package:http` + DTOs, mappers, shared_preferences, geolocator |
+| 04 | [`step-04-data-layer`](../../tree/step-04-data-layer) | `package:http` + DTOs, mappers, shared_preferences, geolocator |
 | 05 | `step-05-presentation-ui` | Screens as stateless views, theme, gen-l10n, RTL |
 | 06 | `step-06-integration` | Riverpod view models, navigation, permissions |
 | 07 | `step-07-quality-release` | `integration_test` end to end, screenshots, release |

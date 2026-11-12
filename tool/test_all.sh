@@ -29,6 +29,6 @@ run() {
 
 run packages/domain 90
 run tool/source_rules
-run packages/data
+run packages/data 85
 run packages/presentation
 run .

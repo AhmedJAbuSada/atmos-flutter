@@ -1,6 +1,6 @@
 # Step 03 — Domain layer: the business rules, in pure Dart
 
-**Branch:** `step-03-domain-layer` · **Previous:** [step 02](02-project-structure.md) · **Next:** step 04, data layer
+**Branch:** `step-03-domain-layer` · **Previous:** [step 02](02-project-structure.md) · **Next:** [step 04, data layer](04-data-layer.md)
 
 The same rules as the [Android](https://github.com/AhmedJAbuSada/atmos-android/blob/step-03-domain-layer/docs/steps/03-domain-layer.md),
 [iOS](https://github.com/AhmedJAbuSada/atmos-ios/blob/step-03-domain-layer/docs/steps/03-domain-layer.md)
