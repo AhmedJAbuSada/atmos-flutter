@@ -29,6 +29,13 @@ Full rules: [`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE
   `onEvent` only (ADR-0003).
 - Inject a `DateProvider`; never `DateTime.now()` in logic.
 
+## Decisions already made
+- The project owner approved the library ADRs as written on 2026-11-12: Riverpod 3 without
+  code generation (ADR-0003), `package:http` (ADR-0007), shared_preferences with its async API
+  (ADR-0008), geolocator (ADR-0009), the SDK's `Navigator` (ADR-0010), `integration_test`
+  for end-to-end tests (ADR-0011) and `material_ui` (ADR-0013). Do not reopen them without a
+  new ADR.
+
 ## Code rules
 - Follow [`docs/process/CODING_STANDARDS.md`](docs/process/CODING_STANDARDS.md).
 - No `!` (null assertion) outside tests. No `dynamic` outside JSON parsing.

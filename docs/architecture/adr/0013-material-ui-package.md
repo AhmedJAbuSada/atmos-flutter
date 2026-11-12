@@ -2,6 +2,7 @@
 
 - **Status:** Accepted (adds to ADR-0003, which chose Material 3 but not where it comes from)
 - **Date:** 2026-11-12
+- **Approved:** by the project owner on 2026-11-12, as written (status note added in step 03)
 
 ## Context
 Step 02 generated the project with Flutter 3.50.0. Its template no longer imports

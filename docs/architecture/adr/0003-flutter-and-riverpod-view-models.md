@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-12
+- **Approved:** by the project owner on 2026-11-12, as written (status note added in step 03)
 
 ## Context
 We need a UI toolkit setup and a presentation pattern that are testable and comparable with
