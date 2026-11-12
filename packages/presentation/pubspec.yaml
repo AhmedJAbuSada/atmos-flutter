@@ -1,0 +1,17 @@
+name: atmos_presentation
+description: The screens and view models of Atmos. Knows the domain, never the data layer.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  atmos_domain:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

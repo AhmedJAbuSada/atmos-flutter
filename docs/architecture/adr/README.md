@@ -19,5 +19,6 @@ React Native apps.
 | [0010](0010-navigator-for-navigation.md) | Navigation: the SDK's `Navigator`, typed route functions | Accepted |
 | [0011](0011-testing.md) | Testing: `package:test`, `flutter_test`, `integration_test`, hand-written fakes | Accepted |
 | [0012](0012-static-analysis-and-source-rules.md) | Static analysis: strict analyzer, `flutter_lints`, a custom source check | Accepted |
+| [0013](0013-material-ui-package.md) | Material widgets from the `material_ui` package | Accepted |
 
 Template: copy [`template.md`](template.md).

@@ -1,0 +1,85 @@
+# Three jobs:
+# - checks: format, analyze (strict, every finding fails), the custom source rules (layers,
+#   casing, start/end) and every package's tests. Fast; most changes are proven here.
+# - android: the debug APK builds.
+# - ios: the app builds for iOS devices without code signing.
+# A failing step turns its log into annotations (scripts/annotate-log.py), so the reason is
+# readable on the run's summary page.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, "step-*"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # The version this repository is built and documented with (docs/PROGRESS.md).
+  FLUTTER_VERSION: "3.50.0"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  checks:
+    name: Format, analyze, source rules and tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Get packages (whole workspace)
+        run: flutter pub get > pub.log 2>&1 && cat pub.log || { cat pub.log; python3 scripts/annotate-log.py pub.log "flutter pub get"; exit 1; }
+      - name: Format
+        run: dart format --output=none --set-exit-if-changed . > format.log 2>&1 && cat format.log || { cat format.log; python3 scripts/annotate-log.py format.log "dart format (run it locally and commit)"; exit 1; }
+      - name: Analyze (strict; infos fail too)
+        run: dart analyze --fatal-infos > analyze.log 2>&1 && cat analyze.log || { cat analyze.log; python3 scripts/annotate-log.py analyze.log "dart analyze"; exit 1; }
+      - name: Source rules (layers, casing, start/end)
+        run: dart run atmos_source_rules > rules.log 2>&1 && cat rules.log || { cat rules.log; python3 scripts/annotate-log.py rules.log "Source rules"; exit 1; }
+      - name: Tests (every package)
+        run: tool/test_all.sh > test.log 2>&1 && cat test.log || { cat test.log; python3 scripts/annotate-log.py test.log "Tests"; exit 1; }
+
+  android:
+    name: Android build
+    needs: checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Build the debug APK
+        run: flutter build apk --debug > android.log 2>&1 || { tail -n 80 android.log; python3 scripts/annotate-log.py android.log "Android build"; exit 1; }
+
+  ios:
+    name: iOS build
+    needs: checks
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - name: Build for iOS devices, without code signing
+        run: flutter build ios --debug --no-codesign > ios.log 2>&1 || { tail -n 80 ios.log; python3 scripts/annotate-log.py ios.log "iOS build"; exit 1; }

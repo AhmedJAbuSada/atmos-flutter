@@ -1,0 +1,64 @@
+# One file for the whole workspace: every package is analysed with these rules (ADR-0012).
+# CI runs `dart analyze --fatal-infos`, so every finding below, even an info, fails the build.
+
+include: package:flutter_lints/flutter.yaml
+
+# `dart format` owns layout, including trailing commas and line length (100 columns, the
+# width of the other three apps). That is why `lines_longer_than_80_chars` (fixed at 80) and
+# `require_trailing_commas` (which fights the formatter's tall style) are not listed below.
+formatter:
+  page_width: 100
+
+analyzer:
+  language:
+    # No implicit casts from dynamic, no inferred dynamic, no raw generic types.
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    # The layer boundary (ADR-0001): in a workspace an undeclared package still resolves,
+    # so importing one must be an error, not an info.
+    depend_on_referenced_packages: error
+    # A missing case in a switch over a sealed type or an enum is a bug.
+    exhaustive_cases: error
+  exclude:
+    - "**/build/**"
+    - android/**
+    - ios/**
+    - build/**
+
+linter:
+  rules:
+    # Types and nulls
+    - always_declare_return_types
+    - avoid_dynamic_calls
+    - strict_top_level_inference
+    - type_annotate_public_apis
+    - unnecessary_null_checks
+    # Async: a Future is awaited, or explicitly unawaited().
+    - unawaited_futures
+    - discarded_futures
+    - cancel_subscriptions
+    - close_sinks
+    # Errors are values (ADR-0006): catch what you mean, throw only errors.
+    - avoid_catches_without_on_clauses
+    - only_throw_errors
+    - use_rethrow_when_possible
+    # Immutability and clarity
+    - prefer_final_locals
+    - prefer_final_in_for_each
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - avoid_redundant_argument_values
+    - unnecessary_lambdas
+    - unnecessary_parenthesis
+    - use_named_constants
+    # Style
+    - prefer_single_quotes
+    - directives_ordering
+    - sort_pub_dependencies
+    # Libraries and tests
+    - avoid_relative_lib_imports
+    - unnecessary_library_directive
+    - test_types_in_equals
+    - no_adjacent_strings_in_list

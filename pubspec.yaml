@@ -1,0 +1,33 @@
+name: atmos
+description: "Atmos, a weather app (Flutter tutorial). The app is the composition root."
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.14.0
+
+# One package per layer, resolved together by one `flutter pub get` (ADR-0001).
+workspace:
+  - packages/domain
+  - packages/data
+  - packages/presentation
+  - tool/source_rules
+
+dependencies:
+  # The app is the only package that depends on every layer (ADR-0004).
+  atmos_data:
+  atmos_domain:
+  atmos_presentation:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.1.0
+
+dev_dependencies:
+  # The project's own checks (ADR-0012): `dart run atmos_source_rules`.
+  atmos_source_rules:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

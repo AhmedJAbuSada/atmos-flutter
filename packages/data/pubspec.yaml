@@ -1,0 +1,18 @@
+name: atmos_data
+description: Talks to Open-Meteo, storage and location; implements the domain's repositories.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  atmos_domain:
+  # A Flutter package, because its plugins (storage, location; step 04) need the engine.
+  # It may use services and foundation, never widgets (tool/source_rules).
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

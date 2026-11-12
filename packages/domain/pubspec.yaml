@@ -1,0 +1,14 @@
+name: atmos_domain
+description: The business rules of Atmos, in pure Dart (ADR-0001).
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+# No dependencies, on purpose: the domain is pure Dart and runs with `dart test`.
+
+dev_dependencies:
+  # Not ^1.33: the workspace shares one resolution, and flutter_test pins test_api to the
+  # version that test 1.32 uses.
+  test: ^1.32.0
