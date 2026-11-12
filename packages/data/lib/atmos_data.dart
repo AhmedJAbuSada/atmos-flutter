@@ -10,5 +10,7 @@ export 'src/data_module.dart' show DataModule;
 export 'src/local/key_value_store.dart' show InMemoryKeyValueStore, KeyValueStore;
 export 'src/local/shared_preferences_store.dart' show SharedPreferencesStore;
 export 'src/location/geolocator_location_platform.dart' show GeolocatorLocationPlatform;
+export 'src/location/geolocator_permissions.dart'
+    show GeolocatorPermissions, LocationPermissionAnswer;
 export 'src/location/location_repository.dart' show LocationPermissionStatus, LocationPlatform;
 export 'src/remote/http_client.dart' show HttpClient, HttpResponse;

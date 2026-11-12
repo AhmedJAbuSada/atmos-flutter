@@ -2,20 +2,25 @@ import 'dart:io' show Platform;
 
 import 'package:atmos_data/atmos_data.dart';
 import 'package:atmos_domain/atmos_domain.dart';
+import 'package:atmos_presentation/atmos_presentation.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 
-/// The app's version, sent in the User-Agent. Kept in step with `version:` in pubspec.yaml.
+import 'native_platform.dart';
+
+/// The app's version, sent in the User-Agent and shown on About. Kept in step with `version:`
+/// in pubspec.yaml.
 const appVersion = '1.0.0';
 
 /// The composition root (ADR-0004): the one place that creates the real implementations from
-/// `atmos_data`. From step 06 it also builds the overrides for Riverpod's root `ProviderScope`.
-///
-/// Every input has a real default; tests pass in-memory or fake ones instead.
+/// `atmos_data` and hands them to the presentation layer, as overrides for the root
+/// `ProviderScope`. Every input has a real default; tests pass in-memory or fake ones instead.
 final class AppDependencies {
   AppDependencies({
     KeyValueStore? store,
     LocationPlatform? location,
     this.dates = const SystemDateProvider(),
     HttpClient? httpClient,
+    this.platform = const NativeAppPlatform(),
   }) : data = DataModule.create(
          store: store ?? SharedPreferencesStore(),
          location: location ?? const GeolocatorLocationPlatform(),
@@ -29,4 +34,15 @@ final class AppDependencies {
 
   final DateProvider dates;
   final DataModule data;
+  final AppPlatform platform;
+
+  /// The whole object graph, for `ProviderScope(overrides: …)`.
+  List<Override> get overrides => [
+    weatherRepositoryProvider.overrideWithValue(data.weatherRepository),
+    cityRepositoryProvider.overrideWithValue(data.cityRepository),
+    settingsRepositoryProvider.overrideWithValue(data.settingsRepository),
+    locationRepositoryProvider.overrideWithValue(data.locationRepository),
+    dateProviderProvider.overrideWithValue(dates),
+    appPlatformProvider.overrideWithValue(platform),
+  ];
 }
