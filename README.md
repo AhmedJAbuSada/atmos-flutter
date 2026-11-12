@@ -4,12 +4,40 @@
 tutorial on professional Flutter development with Clean Architecture and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 05 of 7 — Presentation: the views, before any data
+
+`step-05-presentation-ui` · [← Step 04](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-04-data-layer) · [Step 06 →](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-06-integration) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** The four screens as views of a sealed state, in `packages/presentation`: Home (loading skeleton, "where are you?", error with retry, the forecast with 24 hours, 7 days and "Updated 2 hours ago"), Cities (search, results, saved places, remove with Undo), Settings (units, theme, the Language row that opens the system page) and About. Strings in ARB for gen-l10n in English, Turkish and Arabic, with Arabic's six plural forms, marked as AI-written and not reviewed; an `intl` formatter with directional isolates and Latin digits; light and dark tokens with a WCAG contrast test; 128 widget tests, every state in all three languages.
+
+**Why it matters.** A view that can only show what it is given can be built, tested and reviewed on its own, in every language and theme, before any data exists. The step also shows two places where the toolchain needed care: Flutter 3.50's gen-l10n still writes deprecated delegates next to `material_ui` (ADR-0016), and Flutter's default locale resolution would show English to a user who ranked Turkish first, so the app resolves the language the way the other three apps do.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `packages/presentation/lib/src/l10n/arb/` | The strings in en, tr and ar |
+| `packages/presentation/lib/src/formatting/weather_formatter.dart` | Isolates, Latin digits, times at the place |
+| `packages/presentation/lib/src/home/home_view.dart` | Every Home state, one switch |
+| `packages/presentation/test/` | 128 tests in three languages, dark mode, 200% text |
+| `docs/architecture/adr/0016-generated-localizations-with-material-ui.md` | gen-l10n next to material_ui |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/05-presentation-ui.md](docs/steps/05-presentation-ui.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 04](https://github.com/AhmedJAbuSada/atmos-flutter/compare/step-04-data-layer...step-05-presentation-ui).
+3. **Run it:**
+   ```bash
+   flutter pub get
+   cd packages/presentation && flutter test
+   cd ../.. && flutter run
+   ```
+4. **Try the exercise:** Remove the `isolate(...)` call from `WeatherFormatter.temperature` and run the tests: which ones fail? Then set your phone's app language to Arabic and look at "Feels like" on Home.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-flutter).
+
+---
 <!-- step-banner:end -->
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.50-02569B?logo=flutter&logoColor=white)
