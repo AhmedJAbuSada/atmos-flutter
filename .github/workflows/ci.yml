@@ -1,8 +1,11 @@
-# Three jobs:
-# - checks: format, analyze (strict, every finding fails), the custom source rules (layers,
-#   casing, start/end) and every package's tests. Fast; most changes are proven here.
-# - android: the debug APK builds.
-# - ios: the app builds for iOS devices without code signing.
+# Four jobs:
+# - checks: generated code, format, analyze (strict, every finding fails), the custom source rules
+#   (layers, casing, start/end) and every package's tests with the coverage gates. Fast.
+# - android: the release APK, with R8 and obfuscated Dart, as it would ship.
+# - device: on an Android emulator, that release APK's smoke test, then the integration_test
+#   journey (profile mode, real API) in en, tr and ar. With "[screenshots]" in the commit
+#   message, the screenshots are committed back (ADR-0018).
+# - ios: the app builds in Release for iOS devices, without code signing.
 # A failing step turns its log into annotations (scripts/annotate-log.py), so the reason is
 # readable on the run's summary page.
 name: CI
@@ -59,7 +62,7 @@ jobs:
         run: tool/test_all.sh > test.log 2>&1 && cat test.log || { cat test.log; python3 scripts/annotate-log.py test.log "Tests"; exit 1; }
 
   android:
-    name: Android build
+    name: Android release build
     needs: checks
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -74,8 +77,74 @@ jobs:
           channel: stable
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
-      - name: Build the debug APK
-        run: flutter build apk --debug > android.log 2>&1 || { tail -n 80 android.log; python3 scripts/annotate-log.py android.log "Android build"; exit 1; }
+      - name: Build the release APK (R8, obfuscated Dart)
+        run: flutter build apk --release --obfuscate --split-debug-info=build/symbols > android.log 2>&1 || { tail -n 80 android.log; python3 scripts/annotate-log.py android.log "Android build"; exit 1; }
+      - uses: actions/upload-artifact@v5
+        with:
+          name: release-apk
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/symbols/
+          retention-days: 7
+
+  device:
+    name: Emulator (release smoke test, journey in en, tr, ar)
+    needs: android
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write # only used to commit screenshots, see the last step
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v5
+        with:
+          name: release-apk
+          path: build/
+      # The artifact keeps its paths: build/app/outputs/flutter-apk/app-release.apk.
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      # Hardware acceleration for the emulator on GitHub's Linux runners.
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          profile: pixel_7
+          target: google_apis
+          arch: x86_64
+          disable-animations: true
+          script: ./scripts/device-tests.sh > device.log 2>&1 || { python3 scripts/annotate-log.py device.log "Emulator"; exit 1; }
+      - name: Upload the screenshots and the log
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: device
+          path: |
+            docs/screenshots/
+            device.log
+            build/*.log
+          retention-days: 7
+      # Pushes made with GITHUB_TOKEN do not start new runs, so this cannot loop.
+      - name: Commit the screenshots
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[screenshots]')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots
+          git diff --cached --quiet || git commit -m "docs: update screenshots"
+          git push
 
   ios:
     name: iOS build
@@ -89,5 +158,5 @@ jobs:
           channel: stable
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
-      - name: Build for iOS devices, without code signing
-        run: flutter build ios --debug --no-codesign > ios.log 2>&1 || { tail -n 80 ios.log; python3 scripts/annotate-log.py ios.log "iOS build"; exit 1; }
+      - name: Build in Release for iOS devices, without code signing
+        run: flutter build ios --release --no-codesign > ios.log 2>&1 || { tail -n 80 ios.log; python3 scripts/annotate-log.py ios.log "iOS build"; exit 1; }
