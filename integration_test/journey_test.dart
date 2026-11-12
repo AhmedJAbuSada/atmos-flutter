@@ -21,6 +21,11 @@ void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('journey without location: search, add, open a city, then °F', (tester) async {
+    // On a device the integration binding leaves text input to the real keyboard, so
+    // `enterText` would type into nothing (the first emulator runs showed an empty field).
+    // Typing through the test's own text input is what widget tests do.
+    tester.testTextInput.register();
+    addTearDown(tester.testTextInput.unregister);
     await tester.pumpWidget(
       ProviderScope(overrides: AppDependencies().overrides, child: const AtmosApp()),
     );
