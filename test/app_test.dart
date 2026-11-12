@@ -1,21 +1,22 @@
-import 'package:atmos/app/atmos_app.dart';
 import 'package:atmos/app/composition.dart';
 import 'package:atmos_data/atmos_data.dart';
 import 'package:atmos_domain/atmos_domain.dart';
+import 'package:atmos_presentation/atmos_presentation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'support/harness.dart';
+
 void main() {
   group('the OS owns the language (ADR-0005)', () {
-    Future<void> startWith(WidgetTester tester, List<Locale> phone) async {
-      tester.platformDispatcher.localesTestValue = phone;
-      addTearDown(tester.platformDispatcher.clearLocalesTestValue);
-      await tester.pumpWidget(const AtmosApp());
-      await tester.pump();
-    }
-
     TextDirection direction(WidgetTester tester) =>
         Directionality.of(tester.element(find.byType(Scaffold)));
+
+    Future<void> startWith(WidgetTester tester, List<Locale> phone) async {
+      final app = AppHarness()..location.result = const Err(LocationPermissionDenied());
+      await app.start(tester, phone: phone);
+    }
 
     testWidgets('an English phone gets English, left to right', (tester) async {
       await startWith(tester, const [Locale('en', 'GB')]);
@@ -45,16 +46,28 @@ void main() {
       expect(AppDependencies.userAgent, matches(RegExp(r'^Atmos/1\.0\.0 \(Flutter; \w+\)$')));
     });
 
-    test('wires the data layer to the inputs it is given', () async {
+    test('its overrides give the presentation layer the real data layer', () async {
       final dependencies = AppDependencies(
         store: InMemoryKeyValueStore(),
         location: _DeniedLocation(),
+        platform: FakeAppPlatform(),
       );
+      final container = ProviderContainer.test(overrides: dependencies.overrides);
       expect(
-        await dependencies.data.locationRepository.currentLocation(),
-        const Err<Coordinates>(LocationPermissionDenied()),
+        await container.read(getCurrentLocationForecastProvider).call(),
+        const Err<ForecastSnapshot>(LocationPermissionDenied()),
       );
-      expect(await dependencies.data.cityRepository.savedCities(), isEmpty);
+      expect(container.read(cityRepositoryProvider), same(dependencies.data.cityRepository));
+    });
+
+    test('a provider without an override says which one is missing', () {
+      final container = ProviderContainer.test();
+      expect(
+        () => container.read(weatherRepositoryProvider),
+        throwsA(
+          predicate((Object? e) => '$e'.contains('weatherRepositoryProvider is not provided')),
+        ),
+      );
     });
   });
 }

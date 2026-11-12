@@ -20,6 +20,7 @@ dependencies:
   atmos_presentation:
   flutter:
     sdk: flutter
+  flutter_riverpod: ^3.5.0
   material_ui: ^1.1.0
 
 dev_dependencies:
