@@ -4,6 +4,8 @@ library;
 
 import 'package:atmos_domain/atmos_domain.dart';
 
+export 'src/cities/cities_state.dart';
+export 'src/cities/cities_view.dart';
 export 'src/error_message.dart';
 export 'src/formatting/weather_formatter.dart';
 export 'src/home/home_state.dart';
