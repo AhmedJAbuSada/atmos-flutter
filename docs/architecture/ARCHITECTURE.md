@@ -59,8 +59,8 @@ the workspace uses them. Two tools close that gap:
 | Layer (package) | May import | Must not import |
 |---|---|---|
 | `atmos_domain` | core Dart libraries, itself | `package:flutter`, `dart:ui`, `dart:io`, any other package |
-| `atmos_data` | `atmos_domain`, http, storage, location, `package:flutter/services.dart` and `foundation.dart` | `atmos_presentation`, `atmos`, widgets, Riverpod |
-| `atmos_presentation` | `atmos_domain`, Flutter, Riverpod, `intl` | `atmos_data`, `atmos`, http, storage, location, `dart:io` |
+| `atmos_data` | `atmos_domain`, http, storage, location, `package:flutter/services.dart` and `foundation.dart` | `atmos_presentation`, `atmos`, widgets, `material_ui`, Riverpod |
+| `atmos_presentation` | `atmos_domain`, Flutter, `material_ui` (ADR-0013), Riverpod, `intl` | `atmos_data`, `atmos`, http, storage, location, `dart:io` |
 | `atmos` (the app) | everything | — |
 
 ```

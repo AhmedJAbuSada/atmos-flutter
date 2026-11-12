@@ -10,8 +10,8 @@ review.
 | **Dart analyzer** (`strict-casts`, `strict-inference`, `strict-raw-types`) | Types, nulls, exhaustive `switch`, undeclared package imports | `dart analyze --fatal-infos` |
 | **Lints** (`flutter_lints` + an explicit list in `analysis_options.yaml`) | Style, async mistakes, Flutter pitfalls | `dart analyze --fatal-infos` |
 | **`tool/source_rules`** | Layer imports, locale-safe casing, `start`/`end` | `dart run atmos_source_rules` |
-| **`dart format`** | Formatting | `dart format .` |
-| **`dart test` / `flutter test`** | Behaviour | per package |
+| **`dart format`** (100 columns) | Formatting | `dart format .` |
+| **`dart test` / `flutter test`** | Behaviour | `tool/test_all.sh` (every package) |
 
 All run in CI on every pull request. Any analyzer finding, including an *info*, fails the build.
 
@@ -56,6 +56,8 @@ All run in CI on every pull request. Any analyzer finding, including an *info*, 
   isolates by the formatter (ADR-0005).
 - Every tappable widget has a semantic label when it has no text; minimum hit area 48 × 48 dp
   on Android and 44 × 44 pt on iOS (Material's default `kMinInteractiveDimension` is 48).
+- Material comes from `package:material_ui/material_ui.dart` (ADR-0013); the old
+  `package:flutter/material.dart` is deprecated.
 - No inline user-facing strings: `AppLocalizations.of(context).next24Hours`. Brand names
   (`Atmos`, `Open-Meteo`) are the only exception.
 - `const` widgets wherever possible; no logic in `build` beyond choosing what to show.

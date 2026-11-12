@@ -1,6 +1,6 @@
 # Step 01 — Planning: documents before code (Flutter)
 
-**Branch:** `step-01-planning` · **Next:** step 02, project structure
+**Branch:** `step-01-planning` · **Next:** [step 02, project structure](02-project-structure.md)
 
 No code yet, on purpose. This is the fourth codebase for the same product
 ([Android](https://github.com/AhmedJAbuSada/atmos-android),
