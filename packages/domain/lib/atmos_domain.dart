@@ -9,6 +9,10 @@ export 'src/common/date_provider.dart';
 export 'src/common/domain_error.dart';
 export 'src/common/result.dart';
 export 'src/common/value_store.dart';
+export 'src/location/city.dart';
+export 'src/location/city_use_cases.dart';
+export 'src/location/coordinates.dart';
+export 'src/location/repositories.dart';
 export 'src/settings/units.dart';
 export 'src/settings/user_settings.dart';
 
