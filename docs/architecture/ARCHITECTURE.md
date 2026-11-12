@@ -86,7 +86,9 @@ packages/domain/lib/src/
 ```
 
 Each package exposes one library (`package:atmos_domain/atmos_domain.dart`) that exports its
-public API; everything under `lib/src/` is private by convention.
+public API; everything under `lib/src/` is private by convention. The domain also has
+`package:atmos_domain/testing.dart`: fakes shared by every package's **tests**; a source rule
+fails if any `lib/` imports it.
 
 ## 4. Data flow (one request)
 
