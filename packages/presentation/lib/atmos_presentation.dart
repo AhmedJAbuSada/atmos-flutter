@@ -17,4 +17,5 @@ export 'src/settings/settings_view.dart';
 export 'src/theme/atmos_colors.dart';
 export 'src/view_models/cities_view_model.dart';
 export 'src/view_models/home_view_model.dart';
+export 'src/view_models/settings_view_model.dart';
 export 'src/weather/condition_ui.dart';
