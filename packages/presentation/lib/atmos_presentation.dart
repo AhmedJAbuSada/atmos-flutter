@@ -4,6 +4,7 @@ library;
 
 import 'package:atmos_domain/atmos_domain.dart';
 
+export 'src/formatting/weather_formatter.dart';
 export 'src/l10n/app_language.dart';
 export 'src/l10n/app_localizations.dart';
 export 'src/placeholder_screen.dart';
