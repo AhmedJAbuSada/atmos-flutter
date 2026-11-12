@@ -3,6 +3,15 @@
 **A weather app for Android and iOS from one Dart codebase, built step by step as a public
 tutorial on professional Flutter development with Clean Architecture and an AI coding agent.**
 
+<!-- step-banner:start -->
+> ### 📍 You are on `main`: the newest version
+> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
+> step 07 it becomes the finished app. To **learn how it is built**, start at
+> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-01-planning) and follow the steps in order:
+> each step branch has its own README that explains what that step is, why it exists,
+> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+<!-- step-banner:end -->
+
 ![Flutter](https://img.shields.io/badge/Flutter-3.50-02569B?logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-3.14%20strict-0175C2?logo=dart&logoColor=white)
 ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-3%20layers-success)
