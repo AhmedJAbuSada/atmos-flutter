@@ -41,6 +41,14 @@ jobs:
           cache: true
       - name: Get packages (whole workspace)
         run: flutter pub get > pub.log 2>&1 && cat pub.log || { cat pub.log; python3 scripts/annotate-log.py pub.log "flutter pub get"; exit 1; }
+      - name: Generated localizations are up to date (ADR-0016)
+        run: |
+          (cd packages/presentation && flutter gen-l10n) > l10n.log 2>&1 || { cat l10n.log; python3 scripts/annotate-log.py l10n.log "flutter gen-l10n"; exit 1; }
+          if [ -n "$(git status --porcelain -- packages/presentation/lib/src/l10n)" ]; then
+            git status --porcelain -- packages/presentation/lib/src/l10n
+            echo "::error title=Localizations::The generated files differ from the ARB files: run 'flutter gen-l10n' in packages/presentation and commit the result."
+            exit 1
+          fi
       - name: Format
         run: dart format --output=none --set-exit-if-changed . > format.log 2>&1 && cat format.log || { cat format.log; python3 scripts/annotate-log.py format.log "dart format (run it locally and commit)"; exit 1; }
       - name: Analyze (strict; infos fail too)

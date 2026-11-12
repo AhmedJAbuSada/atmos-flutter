@@ -1,6 +1,6 @@
 # Step 04 — Data layer: the app's backend on the phone (Flutter)
 
-**Branch:** `step-04-data-layer` · **Previous:** [step 03](03-domain-layer.md) · **Next:** step 05, presentation
+**Branch:** `step-04-data-layer` · **Previous:** [step 03](03-domain-layer.md) · **Next:** [step 05, presentation](05-presentation-ui.md)
 
 `packages/data` implements the domain's repository interfaces: the Open-Meteo client, the
 mappers, the cache, the saved cities, the settings and the location. It is a port of the

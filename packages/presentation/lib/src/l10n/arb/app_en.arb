@@ -1,0 +1,189 @@
+{
+  "@@locale": "en",
+  "@@x-translation": "Source language. Written with an AI agent.",
+  "aboutDataSource": "Weather data by Open-Meteo.com",
+  "aboutLicense": "License: MIT",
+  "aboutSourceCode": "Source code on GitHub",
+  "aboutTitle": "About",
+  "aboutVersion": "Version {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "actionBack": "Back",
+  "actionClearSearch": "Clear search",
+  "actionRetry": "Try again",
+  "citiesAdd": "Add {name}",
+  "@citiesAdd": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "citiesAlreadySaved": "{name} is already in your list",
+  "@citiesAlreadySaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "citiesEmptySaved": "Search for a city to add it here.",
+  "citiesNoResults": "No cities found",
+  "citiesRemove": "Remove {name}",
+  "@citiesRemove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "citiesRemoved": "{name} removed",
+  "@citiesRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "citiesSearchPrompt": "Search city",
+  "citiesTitle": "Cities",
+  "citiesUndo": "Undo",
+  "conditionClear": "Clear",
+  "conditionDrizzle": "Drizzle",
+  "conditionFog": "Fog",
+  "conditionFreezingDrizzle": "Freezing drizzle",
+  "conditionFreezingRain": "Freezing rain",
+  "conditionMainlyClear": "Mainly clear",
+  "conditionOvercast": "Overcast",
+  "conditionPartlyCloudy": "Partly cloudy",
+  "conditionRain": "Rain",
+  "conditionRainShowers": "Rain showers",
+  "conditionSnow": "Snow",
+  "conditionSnowShowers": "Snow showers",
+  "conditionThunderstorm": "Thunderstorm",
+  "conditionThunderstormWithHail": "Thunderstorm with hail",
+  "conditionUnknown": "Unknown conditions",
+  "errorLocationDenied": "Location access is off.",
+  "errorLocationUnavailable": "We couldn't find your location. Try again outdoors or search for a city.",
+  "errorNoConnection": "You're offline. Check your connection and try again.",
+  "errorNotFound": "We couldn't find that place.",
+  "errorServer": "The weather service has a problem right now. Please try again later.",
+  "errorTimeout": "The weather service is taking too long to answer.",
+  "errorUnknown": "Something went wrong. Please try again.",
+  "homeAllowLocation": "Allow location",
+  "homeAttribution": "Weather data by Open-Meteo.com",
+  "homeCurrentLocation": "Current location",
+  "homeFeelsLike": "Feels like {value}",
+  "@homeFeelsLike": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeHumidity": "Humidity {value}",
+  "@homeHumidity": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeLoading": "Loading the forecast",
+  "homeLowHigh": "Low {low}, high {high}",
+  "@homeLowHigh": {
+    "placeholders": {
+      "high": {
+        "type": "String"
+      },
+      "low": {
+        "type": "String"
+      }
+    }
+  },
+  "homeNext24Hours": "Next 24 hours",
+  "homeNext7Days": "Next 7 days",
+  "homeNoLocationMessage": "Allow location access to see the weather where you are, or search for a city.",
+  "homeNoLocationTitle": "Where are you?",
+  "homeNow": "Now",
+  "homeOpenCities": "Cities",
+  "homeOpenSettings": "Settings",
+  "homePrecipitationChance": "{value} chance of precipitation",
+  "@homePrecipitationChance": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSearchCity": "Search for a city",
+  "homeSunriseSunset": "Sunrise {sunrise} · Sunset {sunset}",
+  "@homeSunriseSunset": {
+    "placeholders": {
+      "sunrise": {
+        "type": "String"
+      },
+      "sunset": {
+        "type": "String"
+      }
+    }
+  },
+  "homeToday": "Today",
+  "homeUpdatedDays": "{count, plural, one{Updated {count} day ago} other{Updated {count} days ago}}",
+  "@homeUpdatedDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeUpdatedHours": "{count, plural, one{Updated {count} hour ago} other{Updated {count} hours ago}}",
+  "@homeUpdatedHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeUpdatedMinutes": "{count, plural, one{Updated {count} minute ago} other{Updated {count} minutes ago}}",
+  "@homeUpdatedMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeWind": "Wind {value}",
+  "@homeWind": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "languageName": "English",
+  "@languageName": {
+    "description": "The name of this language, in this language. Not a translation."
+  },
+  "settingsAbout": "About",
+  "settingsLanguageFooter": "The app language follows your phone's settings.",
+  "settingsLanguageOpen": "Change language",
+  "settingsLanguageTitle": "Language",
+  "settingsTemperature": "Temperature",
+  "settingsThemeDark": "Dark",
+  "settingsThemeLight": "Light",
+  "settingsThemeSystem": "System",
+  "settingsThemeTitle": "Theme",
+  "settingsTitle": "Settings",
+  "settingsUnitCelsius": "°C",
+  "settingsUnitFahrenheit": "°F",
+  "settingsUnitKilometersPerHour": "km/h",
+  "settingsUnitMetersPerSecond": "m/s",
+  "settingsUnitMilesPerHour": "mph",
+  "settingsWindSpeed": "Wind speed"
+}

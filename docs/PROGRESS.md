@@ -2,8 +2,8 @@
 
 > Read this first at the start of every work session (human or AI). Update it at the end.
 
-**Current step:** 04, data layer ✅ done
-**Next up:** step 05, presentation / UI (`step-05-presentation-ui`)
+**Current step:** 05, presentation / UI ✅ done
+**Next up:** step 06, integration (`step-06-integration`)
 **Last updated:** 2026-11-12
 
 ## Status
@@ -14,34 +14,37 @@
 | 02 Project structure | ✅ Done | `step-02-project-structure` |
 | 03 Domain layer | ✅ Done | `step-03-domain-layer` |
 | 04 Data layer | ✅ Done | `step-04-data-layer` |
-| 05 Presentation / UI | ⏳ Next | `step-05-presentation-ui` |
-| 06 Integration | ⬜ | — |
+| 05 Presentation / UI | ✅ Done | `step-05-presentation-ui` |
+| 06 Integration | ⏳ Next | `step-06-integration` |
 | 07 Quality & release | ⬜ | — |
 
 ## Decisions
 - 2026-11-12, the project owner: the library ADRs are approved as written (ADR-0003, 0007–0011,
   0013); end-to-end tests use `integration_test`; a dev-only lcov package is allowed for the
   coverage gates (not needed: ADR-0014); the Settings "Language" row opens the system page.
-- ADR-0015 (agent, for review): local times use the API's `utc_offset_seconds`, no time-zone
-  database; the daylight-saving limitation is written down and pinned by a test.
+- For review (agent): ADR-0015 (local times from the API's offset) and ADR-0016 (gen-l10n output
+  committed, one generated file excluded from analysis because Flutter 3.50's template still
+  uses deprecated delegates).
 
-## Next up: step 05 plan
-Port the React Native step 05 (props-only views) to `packages/presentation`, with no view
-models yet (those are step 06):
-1. Add `flutter_localizations` (SDK) and `intl`; `gen-l10n` with `app_en.arb`, `app_tr.arb`,
-   `app_ar.arb`, each marked "AI-written, not reviewed by a native speaker"; a test that every
-   key exists in all three. **First** check that `flutter_localizations` works with
-   `material_ui` (ADR-0013) without deprecation findings in our code.
-2. A formatter: temperatures, wind, percentages, hours and day names with `intl`, every value
-   inside directional isolates (U+2066…U+2069), Arabic with Latin digits (a test asserts only
-   `0–9`), Turkish `12,5`. The locale-aware casing helper, added to the source rules'
-   allow-list (the one reviewed exception).
-3. Light and dark design tokens with a WCAG AA contrast test; condition icons (moon at night).
-4. Views that take `state` + `onEvent` only, a widget test per state: Home (loading skeleton,
-   content, offline banner, error with retry, "search for a city"), Cities (search, saved,
-   swipe to remove with Undo), Settings (units, theme, the Language row), About.
-5. Error messages per `DomainError` (never one for `Cancelled`).
-6. The app shows the new views with sample data in the OS language; remove the placeholder.
+## Next up: step 06 plan
+Port React Native's step 06 to Flutter:
+1. Add `flutter_riverpod` 3 to `atmos_presentation` (ADR-0003).
+2. View models as `Notifier`s, one per screen, each exposing its sealed state and `onEvent`:
+   - Home: load the selected place (current location or a saved city), refresh, retry, the
+     permission flow; the latest load wins (a late answer is ignored).
+   - Cities: 300 ms debounced search with the 2-character minimum, a late answer guard, add,
+     remove with a 5 s Undo, select.
+   - Settings: observe and update; open the system settings for the language.
+   **Mutation-check** each guard: remove it, see its test fail, put it back.
+3. Permission flow: an explanation first, then the request, and the app settings when the
+   permission is permanently denied (geolocator, ADR-0009); the data layer still never asks.
+4. Typed `Navigator` routes (ADR-0010); the selected place shared between Home and Cities.
+5. The composition root as `ProviderScope` overrides; journey widget tests run the real app
+   with fakes (no network).
+6. The location permission entries: `ACCESS_COARSE_LOCATION` (Android) and a translated
+   `NSLocationWhenInUseUsageDescription` (iOS).
+7. Opening a web link (About) has no approved library yet: decide before building
+   (`url_launcher` needs an ADR and the owner's approval; a small platform channel needs none).
 
 ## Process rule
 After a step is merged into `main`, add the "📍 You are on Step N" section to the top of that
@@ -54,13 +57,11 @@ step branch's README, then push the branch.
   `git -C $HOME/flutter checkout 3.50.0` if stable has moved.
 - The Android SDK is at `/opt/android-sdk` (`flutter config --android-sdk /opt/android-sdk`).
   There is no Mac: the iOS build is proven only in CI.
+- After editing an ARB file, run `flutter gen-l10n` in `packages/presentation` and commit the
+  generated files; CI checks them (ADR-0016).
+- The agent's tool may turn `⁦` escapes into raw invisible characters; the analyzer flags
+  them (`text_direction_code_point_in_literal`). Write such files with escapes from a script.
 - A version constraint in one package limits the whole workspace (one resolution): let
   `flutter pub add` choose versions that match the SDK's pins.
-- The domain's interfaces take no cancellation token (as in React Native); the HTTP client
-  supports `cancel`, unused so far. Step 06 decides how a superseded search is cancelled.
-- **Step 06 must add** the location permission entries: `ACCESS_COARSE_LOCATION` in the Android
-  manifest and `NSLocationWhenInUseUsageDescription` (translated) in the iOS `Info.plist`.
-  `GeolocatorLocationPlatform` and `SharedPreferencesStore` are untested glue until the journey
-  tests of step 07.
-- The first local `flutter build apk` after adding plugins failed once with an unexplained
-  Gradle error and passed on the next run (see the step-04 guide).
+- `GeolocatorLocationPlatform` and `SharedPreferencesStore` are untested glue until the journey
+  tests of step 07. The app has not been run on a device yet.

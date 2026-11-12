@@ -10,8 +10,15 @@ dependencies:
   atmos_domain:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.3
   material_ui: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter:
+  # gen-l10n: ARB files in lib/src/l10n/arb, configured in l10n.yaml (ADR-0005).
+  generate: true

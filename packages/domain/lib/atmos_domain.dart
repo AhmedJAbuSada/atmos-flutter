@@ -18,7 +18,3 @@ export 'src/settings/user_settings.dart';
 export 'src/weather/forecast.dart';
 export 'src/weather/get_forecast.dart';
 export 'src/weather/weather_condition.dart';
-
-/// The name of this layer. The placeholders of the other layers use it to prove the allowed
-/// direction of their imports until they have real code (presentation: step 05).
-const String domainLayer = 'domain';

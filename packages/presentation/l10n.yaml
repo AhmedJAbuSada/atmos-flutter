@@ -1,0 +1,10 @@
+# gen-l10n (ADR-0005): the ARB files in lib/src/l10n/arb become typed Dart in lib/src/l10n.
+# The generated files are committed; CI checks they are up to date (ADR-0016).
+arb-dir: lib/src/l10n/arb
+template-arb-file: app_en.arb
+output-dir: lib/src/l10n
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
+required-resource-attributes: false
+format: true

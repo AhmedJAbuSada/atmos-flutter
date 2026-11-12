@@ -22,5 +22,6 @@ React Native apps.
 | [0013](0013-material-ui-package.md) | Material widgets from the `material_ui` package | Accepted |
 | [0014](0014-coverage-gate-without-a-dependency.md) | A coverage gate with no new dependency | Accepted |
 | [0015](0015-local-times-with-the-utc-offset.md) | Local times from the API's UTC offset, no time-zone database | Accepted |
+| [0016](0016-generated-localizations-with-material-ui.md) | Generated localizations, committed, next to `material_ui` | Accepted |
 
 Template: copy [`template.md`](template.md).

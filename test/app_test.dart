@@ -3,12 +3,41 @@ import 'package:atmos/app/composition.dart';
 import 'package:atmos_data/atmos_data.dart';
 import 'package:atmos_domain/atmos_domain.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
-  testWidgets('the app starts on the placeholder screen', (tester) async {
-    await tester.pumpWidget(const AtmosApp());
+  group('the OS owns the language (ADR-0005)', () {
+    Future<void> startWith(WidgetTester tester, List<Locale> phone) async {
+      tester.platformDispatcher.localesTestValue = phone;
+      addTearDown(tester.platformDispatcher.clearLocalesTestValue);
+      await tester.pumpWidget(const AtmosApp());
+      await tester.pump();
+    }
 
-    expect(find.text('Atmos'), findsOneWidget);
+    TextDirection direction(WidgetTester tester) =>
+        Directionality.of(tester.element(find.byType(Scaffold)));
+
+    testWidgets('an English phone gets English, left to right', (tester) async {
+      await startWith(tester, const [Locale('en', 'GB')]);
+      expect(find.text('Where are you?'), findsOneWidget);
+      expect(direction(tester), TextDirection.ltr);
+    });
+
+    testWidgets('an Arabic (Egypt) phone gets Arabic, right to left', (tester) async {
+      await startWith(tester, const [Locale('ar', 'EG')]);
+      expect(find.text('أين أنت؟'), findsOneWidget);
+      expect(direction(tester), TextDirection.rtl);
+    });
+
+    testWidgets('the first supported language in the phone list wins', (tester) async {
+      await startWith(tester, const [Locale('de'), Locale('tr', 'TR'), Locale('en')]);
+      expect(find.text('Neredesiniz?'), findsOneWidget);
+    });
+
+    testWidgets('a language the app does not ship falls back to English', (tester) async {
+      await startWith(tester, const [Locale('de', 'DE')]);
+      expect(find.text('Where are you?'), findsOneWidget);
+    });
   });
 
   group('the composition root', () {
