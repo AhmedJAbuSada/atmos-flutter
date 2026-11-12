@@ -19,3 +19,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter:
+  # gen-l10n: ARB files in lib/src/l10n/arb, configured in l10n.yaml (ADR-0005).
+  generate: true
