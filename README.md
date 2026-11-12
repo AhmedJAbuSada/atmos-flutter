@@ -4,12 +4,40 @@
 tutorial on professional Flutter development with Clean Architecture and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 03 of 7 — Domain layer: the business rules, in plain code
+
+`step-03-domain-layer` · [← Step 02](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-02-project-structure) · [Step 04 →](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-04-data-layer) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** The business rules in pure Dart, in `packages/domain`: a sealed `Result` and `DomainError` (with `Cancelled`), valid-only `Coordinates` (a private constructor and a factory that returns `null`), units as extension types, cities and places, the WMO code table as one switch expression, the forecast entities, the cache-first `GetForecast` with its decision table, the city use cases, shared fakes in `testing.dart`, and 83 tests that run with `dart test` in about a second, with a 90% coverage gate (99.3%).
+
+**Why it matters.** The same rules as the Android, iOS and React Native domains; comparing the four shows what is architecture (identical) and what is language (sealed classes and exhaustive switches, extension types, callable classes, streams). Two decisions are new to Flutter: Dart's core has no time-zone database, so ADR-0015 reads local times with the API's UTC offset and states the daylight-saving limitation; and the coverage gate needs no dependency (ADR-0014).
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `packages/domain/lib/src/weather/get_forecast.dart` | The cache-first decision table |
+| `packages/domain/lib/src/common/` | Result, DomainError, DateProvider, ValueStore |
+| `packages/domain/lib/testing.dart` | Fakes for every package's tests |
+| `tool/source_rules/lib/src/coverage.dart` | The coverage gate, with no dependency |
+| `docs/architecture/adr/0015-local-times-with-the-utc-offset.md` | Local times without a time-zone database |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/03-domain-layer.md](docs/steps/03-domain-layer.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 02](https://github.com/AhmedJAbuSada/atmos-flutter/compare/step-02-project-structure...step-03-domain-layer).
+3. **Run it:**
+   ```bash
+   flutter pub get
+   cd packages/domain && dart test
+   cd ../.. && tool/test_all.sh
+   ```
+4. **Try the exercise:** Add a new case to `DomainError` and run `dart analyze`: every exhaustive switch that must handle it stops compiling. Then move the `Cancelled` arm in `GetForecast` below the `when cached != null` arm and see which test fails.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-flutter).
+
+---
 <!-- step-banner:end -->
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.50-02569B?logo=flutter&logoColor=white)
