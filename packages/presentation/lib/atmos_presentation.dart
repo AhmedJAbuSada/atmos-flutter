@@ -12,6 +12,7 @@ export 'src/home/home_view.dart';
 export 'src/l10n/app_language.dart';
 export 'src/l10n/app_localizations.dart';
 export 'src/providers.dart';
+export 'src/screens/screens.dart';
 export 'src/settings/about_view.dart';
 export 'src/settings/settings_view.dart';
 export 'src/theme/atmos_colors.dart';
