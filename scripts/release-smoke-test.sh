@@ -23,9 +23,8 @@ adb pull /sdcard/window.xml build/release-window.xml >/dev/null 2>&1 || true
 
 if [ -z "$pid" ] || [ -n "$crash" ]; then
     echo "error: the release build is not running 15 s after start (pid: '${pid}')."
-    echo "$crash"
-    echo "Screen:"
-    python3 scripts/describe-screen.py build/release-window.xml | head -20
+    echo "$crash" | sed 's/^/error:   log | /'
+    python3 scripts/describe-screen.py build/release-window.xml | head -20 | sed 's/^/error:   screen | /'
     exit 1
 fi
 echo "Release build still running after 15 s (pid $pid). On screen:"

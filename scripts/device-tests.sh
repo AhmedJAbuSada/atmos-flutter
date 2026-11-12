@@ -24,13 +24,18 @@ scripts/release-smoke-test.sh "$RELEASE_APK"
 adb uninstall "$APP" >/dev/null
 echo "::endgroup::"
 
+# On failure, everything goes into lines that start with "error:", because that is what
+# annotate-log.py shows on the run's page (run logs need a login; annotations do not).
 describe_failure() {
     adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
     adb pull /sdcard/window.xml build/window.xml >/dev/null 2>&1 || true
-    echo "Screen when the journey failed ($1):"
-    python3 scripts/describe-screen.py build/window.xml | head -30
-    echo "Recent app log:"
-    adb logcat -d -t 300 | grep -iE "flutter|AndroidRuntime|FATAL" | tail -15 || true
+    # annotate-log.py shows up to 20 distinct "error:" lines: 1 + 6 + 1 + 9 + 3.
+    echo "error: journey failed ($1). The test said:"
+    grep -E "Not found after|Expected:|Actual:|Exception|Error:|FAILED|failed" "build/drive-$language.log" \
+        | grep -v "^error:" | tail -6 | sed 's/^/error:   test | /' || true
+    echo "error:   (screen when it failed)"
+    python3 scripts/describe-screen.py build/window.xml | head -9 | sed 's/^/error:   screen | /'
+    adb logcat -d -t 300 | grep -iE "flutter|AndroidRuntime|FATAL" | tail -3 | sed 's/^/error:   log | /' || true
 }
 
 for language in en tr ar; do
@@ -49,16 +54,16 @@ for language in en tr ar; do
         adb logcat -c
         SCREENSHOT_DIR="$out" flutter drive -d "$DEVICE" --profile \
             --driver=test_driver/integration_test.dart --target=integration_test/journey_test.dart \
-            --use-application-binary="$PROFILE_APK"
+            --use-application-binary="$PROFILE_APK" 2>&1 | tee "build/drive-$language.log"
+        return "${PIPESTATUS[0]}"
     }
     # The journey uses the real API over the runner's network. One retry absorbs a slow moment
     # there; the log says so, and two failures in a row still fail the build.
     if ! run_journey; then
-        describe_failure "$language, first try"
+        describe_failure "$language, first try" | sed 's/^error:/note:/'
         echo "Retrying the $language journey once (real network)."
         if ! run_journey; then
-            describe_failure "$language"
-            echo "error: the $language journey failed twice."
+            describe_failure "$language, second try"
             exit 1
         fi
     fi
