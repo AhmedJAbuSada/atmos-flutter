@@ -11,20 +11,23 @@ workspace:
   - packages/domain
   - packages/data
   - packages/presentation
+  - tool/source_rules
 
 dependencies:
+  # The app is the only package that depends on every layer (ADR-0004).
+  atmos_data:
+  atmos_domain:
+  atmos_presentation:
   flutter:
     sdk: flutter
   material_ui: ^1.1.0
-  # The app is the only package that depends on every layer (ADR-0004).
-  atmos_domain:
-  atmos_data:
-  atmos_presentation:
 
 dev_dependencies:
+  # The project's own checks (ADR-0012): `dart run atmos_source_rules`.
+  atmos_source_rules:
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

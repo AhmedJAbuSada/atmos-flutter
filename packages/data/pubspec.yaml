@@ -7,11 +7,11 @@ environment:
   sdk: ^3.14.0
 
 dependencies:
+  atmos_domain:
   # A Flutter package, because its plugins (storage, location; step 04) need the engine.
   # It may use services and foundation, never widgets (tool/source_rules).
   flutter:
     sdk: flutter
-  atmos_domain:
 
 dev_dependencies:
   flutter_test:

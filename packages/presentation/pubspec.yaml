@@ -7,10 +7,10 @@ environment:
   sdk: ^3.14.0
 
 dependencies:
+  atmos_domain:
   flutter:
     sdk: flutter
   material_ui: ^1.1.0
-  atmos_domain:
 
 dev_dependencies:
   flutter_test:

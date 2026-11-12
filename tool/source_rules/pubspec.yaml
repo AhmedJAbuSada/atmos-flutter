@@ -1,0 +1,10 @@
+name: atmos_source_rules
+description: The project's own checks that no lint covers (ADR-0012). Pure Dart.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dev_dependencies:
+  test: ^1.32.0
