@@ -8,6 +8,7 @@ export 'src/formatting/weather_formatter.dart';
 export 'src/l10n/app_language.dart';
 export 'src/l10n/app_localizations.dart';
 export 'src/placeholder_screen.dart';
+export 'src/theme/atmos_colors.dart';
 
 /// The name of this layer. A placeholder until the views replace it (step 05).
 const String presentationLayer = 'presentation';
