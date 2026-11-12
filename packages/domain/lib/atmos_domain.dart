@@ -9,6 +9,8 @@ export 'src/common/date_provider.dart';
 export 'src/common/domain_error.dart';
 export 'src/common/result.dart';
 export 'src/common/value_store.dart';
+export 'src/settings/units.dart';
+export 'src/settings/user_settings.dart';
 
 /// The name of this layer. The placeholders of the other layers use it to prove the allowed
 /// direction of their imports until they have real code (presentation: step 05).
