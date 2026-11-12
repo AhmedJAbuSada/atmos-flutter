@@ -76,6 +76,20 @@ import 'package:atmos_presentation/atmos_presentation.dart';
       );
     });
 
+    test('given the test fakes, then no production code may import them', () {
+      for (final path in ['packages/data/lib/src/x.dart', 'lib/main.dart']) {
+        expect(rulesIn(path, "import 'package:atmos_domain/testing.dart';"), ['layer-imports']);
+      }
+      expect(rulesIn('packages/domain/lib/src/x.dart', "import '../../testing.dart';"), [
+        'layer-imports',
+      ]);
+      expect(rulesIn('packages/domain/lib/x.dart', "import 'testing.dart';"), ['layer-imports']);
+      expect(
+        rulesIn('packages/data/test/x_test.dart', "import 'package:atmos_domain/testing.dart';"),
+        isEmpty,
+      );
+    });
+
     test('given a test file, then the import rules do not apply', () {
       expect(
         rulesIn('packages/domain/test/x_test.dart', "import 'package:test/test.dart';"),

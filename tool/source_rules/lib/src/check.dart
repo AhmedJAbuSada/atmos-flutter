@@ -154,6 +154,12 @@ const _forbiddenInPresentation = [
 
 /// Why [uri] may not be imported from [area], or `null` when it may.
 String? _importProblem(Area area, String uri) {
+  // The fakes are for tests only, in every layer (like React Native's src/testing rule).
+  if (uri == 'package:atmos_domain/testing.dart' ||
+      uri == 'testing.dart' ||
+      uri.endsWith('/testing.dart')) {
+    return "'$uri' holds test fakes: production code must not import it.";
+  }
   final relative = !uri.contains(':');
   switch (area) {
     case Area.domain:
