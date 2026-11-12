@@ -24,5 +24,6 @@ React Native apps.
 | [0015](0015-local-times-with-the-utc-offset.md) | Local times from the API's UTC offset, no time-zone database | Accepted |
 | [0016](0016-generated-localizations-with-material-ui.md) | Generated localizations, committed, next to `material_ui` | Accepted |
 | [0017](0017-a-small-system-channel.md) | A small platform channel for links and the language page | Accepted (for review) |
+| [0018](0018-end-to-end-in-profile-mode.md) | The device journey runs in profile mode; the release build gets a smoke test | Accepted |
 
 Template: copy [`template.md`](template.md).
