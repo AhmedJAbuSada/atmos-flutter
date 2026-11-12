@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-12
+- **Approved:** by the project owner on 2026-11-12, as written (status note added in step 03)
 
 ## Decision
 - **`package:test`** for the pure-Dart domain, run with `dart test` (no Flutter engine).

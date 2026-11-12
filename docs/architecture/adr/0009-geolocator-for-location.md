@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-12
+- **Approved:** by the project owner on 2026-11-12, as written (status note added in step 03)
 
 ## Context
 US-01 needs the device position once, when the app opens, and only if the user allowed it.

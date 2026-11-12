@@ -1,6 +1,6 @@
 # Step 02 — Project structure: make the architecture a rule (Flutter)
 
-**Branch:** `step-02-project-structure` · **Previous:** [step 01](01-planning.md) · **Next:** step 03, domain layer
+**Branch:** `step-02-project-structure` · **Previous:** [step 01](01-planning.md) · **Next:** [step 03, domain layer](03-domain-layer.md)
 
 The Flutter project, with the three layers in place as packages and **tools that enforce
 them** before any feature exists.
