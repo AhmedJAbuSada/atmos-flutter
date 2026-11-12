@@ -1,0 +1,2 @@
+/* The location permission dialog (US-01). Same text as the iOS app. Written with an AI agent. */
+"NSLocationWhenInUseUsageDescription" = "Atmos uses your approximate location to show the weather where you are.";
