@@ -20,5 +20,6 @@ React Native apps.
 | [0011](0011-testing.md) | Testing: `package:test`, `flutter_test`, `integration_test`, hand-written fakes | Accepted |
 | [0012](0012-static-analysis-and-source-rules.md) | Static analysis: strict analyzer, `flutter_lints`, a custom source check | Accepted |
 | [0013](0013-material-ui-package.md) | Material widgets from the `material_ui` package | Accepted |
+| [0015](0015-local-times-with-the-utc-offset.md) | Local times from the API's UTC offset, no time-zone database | Accepted |
 
 Template: copy [`template.md`](template.md).
