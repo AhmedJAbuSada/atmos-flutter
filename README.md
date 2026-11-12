@@ -4,12 +4,40 @@
 tutorial on professional Flutter development with Clean Architecture and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 04 of 7 — Data layer: the app's backend on the phone
+
+`step-04-data-layer` · [← Step 03](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-03-domain-layer) · [Step 05 →](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-05-presentation-ui) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** The data layer in `packages/data`: an Open-Meteo client on `package:http` with a 15-second timeout, abortable requests, an explicit UTF-8 decode and a retry decorator (network errors and 5xx, never 4xx or a cancellation; 1 s then 2 s); DTOs with every field nullable, parsed by hand; mappers tested on the recorded samples; local times read with the API's UTC offset (ADR-0015); the forecast cache (raw response + fetch time), saved cities and sanitized settings on `shared_preferences`; a location repository on `geolocator` that checks but never requests the permission; and a `DataModule` that hands out domain interfaces only. 76 tests, 92.5% line coverage.
+
+**Why it matters.** It is the app's backend on the phone, and the place where the outside world is untrusted: a missing field, a value of the wrong type, a corrupt cache or a broken saved city must never crash the app. Every failure becomes a `DomainError` in one translation table, and no DTO leaves the package. Dart adds two lessons of its own: a `Future` cannot be cancelled, so requests are aborted with `abortTrigger`; and `http.Response` falls back to Latin-1, so the body is decoded as UTF-8 by hand.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `packages/data/lib/src/remote/http_client.dart` | Timeout, abort, User-Agent, UTF-8, retries |
+| `packages/data/lib/src/mappers/forecast_mapper.dart` | Parallel arrays to entities, safely |
+| `packages/data/lib/src/repositories/` | Weather cache, saved cities, settings |
+| `packages/data/lib/src/data_module.dart` | The front door: domain interfaces only |
+| `packages/data/test/support/samples.dart` | Replays docs/api/samples, byte for byte |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/04-data-layer.md](docs/steps/04-data-layer.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 03](https://github.com/AhmedJAbuSada/atmos-flutter/compare/step-03-domain-layer...step-04-data-layer).
+3. **Run it:**
+   ```bash
+   flutter pub get
+   cd packages/data && flutter test
+   cd ../.. && tool/test_all.sh
+   ```
+4. **Try the exercise:** Remove the `on RequestCancelledException { rethrow; }` clause from `RetryingHttpClient` and run the tests: which one fails, and why would the user notice? Then store `{"temperatureUnit": "kelvin"}` in a test and check what the settings repository gives back.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-flutter).
+
+---
 <!-- step-banner:end -->
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.50-02569B?logo=flutter&logoColor=white)
