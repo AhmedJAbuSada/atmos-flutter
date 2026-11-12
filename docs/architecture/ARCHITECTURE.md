@@ -157,6 +157,7 @@ sequenceDiagram
 |---|---|---|
 | Dependency injection | `lib/` | Riverpod providers; the app's `ProviderScope` overrides them with the real implementations (ADR-0004) |
 | Navigation | `lib/` + screens | The SDK's `Navigator` with typed route functions (ADR-0010) |
+| System calls | `lib/app/native_platform.dart` | `AppPlatform`: geolocator for the permission dialog and app settings; a small channel for links and the language page (ADR-0017) |
 | Localization | `packages/presentation` | `gen-l10n` + ARB, `intl` for numbers and dates, directional isolates, language from the OS (ADR-0005) |
 | Settings | `atmos_data` (shared_preferences) → domain | Observed as a `Stream` from a small value store |
 | Static analysis | everywhere | Strict analyzer, `flutter_lints` plus extra rules, `tool/source_rules` (ADR-0012) |

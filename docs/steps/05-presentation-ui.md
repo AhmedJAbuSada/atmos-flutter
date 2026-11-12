@@ -1,6 +1,6 @@
 # Step 05 — Presentation: the views, before any data (Flutter)
 
-**Branch:** `step-05-presentation-ui` · **Previous:** [step 04](04-data-layer.md) · **Next:** step 06, integration
+**Branch:** `step-05-presentation-ui` · **Previous:** [step 04](04-data-layer.md) · **Next:** [step 06, integration](06-integration.md)
 
 Every screen is a **view of a state value**: a sealed state in, events out. No view model, no
 repository, no navigation yet. A view that can only show what it is given can be built, tested
