@@ -50,10 +50,18 @@ class MessageView extends StatelessWidget {
             ),
             const SizedBox(height: AtmosSpacing.l),
             if (action != null)
-              FilledButton(onPressed: action.onPressed, child: Text(action.title)),
+              FilledButton(
+                key: const Key('message.action'),
+                onPressed: action.onPressed,
+                child: Text(action.title),
+              ),
             if (secondaryAction != null) ...[
               const SizedBox(height: AtmosSpacing.s),
-              TextButton(onPressed: secondaryAction.onPressed, child: Text(secondaryAction.title)),
+              TextButton(
+                key: const Key('message.secondaryAction'),
+                onPressed: secondaryAction.onPressed,
+                child: Text(secondaryAction.title),
+              ),
             ],
           ],
         ),

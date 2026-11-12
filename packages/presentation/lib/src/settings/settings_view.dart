@@ -146,7 +146,10 @@ class _Choice<T extends Enum> extends StatelessWidget {
             showSelectedIcon: false,
             segments: [
               for (final MapEntry(key: value, value: label) in options.entries)
-                ButtonSegment(value: value, label: Text(label)),
+                ButtonSegment(
+                  value: value,
+                  label: Text(label, key: Key('settings.option.${value.name}')),
+                ),
             ],
             selected: {selected},
             onSelectionChanged: (values) => onChanged(values.single),
