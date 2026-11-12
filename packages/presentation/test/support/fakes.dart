@@ -55,6 +55,31 @@ final class ControlledWeatherRepository implements WeatherRepository {
   }
 }
 
+/// Saved cities as in [FakeCityRepository], but each search waits until the test answers it.
+final class ControlledCityRepository implements CityRepository {
+  final _saved = FakeCityRepository();
+  final List<(String query, Completer<Result<List<City>>> answer)> searches = [];
+
+  @override
+  Future<Result<List<City>>> search(String query, String languageCode) {
+    final completer = Completer<Result<List<City>>>();
+    searches.add((query, completer));
+    return completer.future;
+  }
+
+  @override
+  Future<List<City>> savedCities() => _saved.savedCities();
+
+  @override
+  Stream<List<City>> observeSavedCities() => _saved.observeSavedCities();
+
+  @override
+  Future<void> save(City city) => _saved.save(city);
+
+  @override
+  Future<void> remove(int cityId) => _saved.remove(cityId);
+}
+
 /// A location repository that answers at once with [result], or, when [pending] is set, when
 /// the test completes it (once).
 final class ControlledLocationRepository implements LocationRepository {
@@ -73,13 +98,17 @@ final class ControlledLocationRepository implements LocationRepository {
 
 /// Everything the presentation layer needs, as fakes, ready to override the providers.
 final class TestDependencies {
-  TestDependencies({WeatherRepository? weather, Result<Coordinates>? location})
-    : weather = weather ?? FakeWeatherRepository(),
-      location = ControlledLocationRepository(location ?? Ok(istanbul));
+  TestDependencies({
+    WeatherRepository? weather,
+    Result<Coordinates>? location,
+    CityRepository? cities,
+  }) : weather = weather ?? FakeWeatherRepository(),
+       location = ControlledLocationRepository(location ?? Ok(istanbul)),
+       cities = cities ?? FakeCityRepository();
 
   final WeatherRepository weather;
   final ControlledLocationRepository location;
-  final cities = FakeCityRepository();
+  final CityRepository cities;
   final settings = FakeSettingsRepository();
   final dates = FixedDateProvider();
   final platform = FakeAppPlatform();
