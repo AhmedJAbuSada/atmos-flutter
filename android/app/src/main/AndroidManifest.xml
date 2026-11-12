@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:label="Atmos"
+        android:localeConfig="@xml/locales_config"
+        android:supportsRtl="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

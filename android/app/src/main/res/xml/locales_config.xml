@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The languages Atmos ships, declared to Android 13+ so the system per-app language page
+     (Settings > Apps > Atmos > Language) lists them. The OS owns the language (ADR-0005). -->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="tr" />
+    <locale android:name="ar" />
+</locale-config>
