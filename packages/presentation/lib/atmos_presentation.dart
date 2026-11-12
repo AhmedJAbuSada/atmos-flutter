@@ -13,6 +13,8 @@ export 'src/home/home_view.dart';
 export 'src/l10n/app_language.dart';
 export 'src/l10n/app_localizations.dart';
 export 'src/placeholder_screen.dart';
+export 'src/settings/about_view.dart';
+export 'src/settings/settings_view.dart';
 export 'src/theme/atmos_colors.dart';
 export 'src/weather/condition_ui.dart';
 
