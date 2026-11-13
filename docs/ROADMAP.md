@@ -14,5 +14,5 @@ git switch step-02-project-structure   # any step
 | 04 | `step-04-data-layer` | `package:http` + DTOs, mappers, shared_preferences cache, settings, geolocator | [04-data-layer.md](steps/04-data-layer.md) |
 | 05 | `step-05-presentation-ui` | Theme, screens as stateless views, gen-l10n ARB, RTL, directional isolates | [05-presentation-ui.md](steps/05-presentation-ui.md) |
 | 06 | `step-06-integration` | Riverpod Notifiers, `Navigator`, permissions, real data | [06-integration.md](steps/06-integration.md) |
-| 07 | `step-07-quality-release` | `integration_test` end to end, screenshots, release builds | — |
+| 07 | `step-07-quality-release` | `integration_test` end to end, screenshots, release builds | [07-quality-release.md](steps/07-quality-release.md) |
 | — | `main` | The finished app | — |

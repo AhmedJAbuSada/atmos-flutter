@@ -18,7 +18,7 @@ tutorial on professional Flutter development with Clean Architecture and an AI c
 ![Languages](https://img.shields.io/badge/i18n-EN%20%7C%20TR%20%7C%20AR%20(RTL)-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-> ✅ **v1.0.0:** all seven steps are done. 348 tests in the Dart VM and Flutter's test engine,
+> ✅ **v1.0.0:** all seven steps are done. 352 tests in the Dart VM and Flutter's test engine,
 > plus the main journey on an Android emulator in English, Turkish and Arabic on every push.
 
 ## Screenshots
