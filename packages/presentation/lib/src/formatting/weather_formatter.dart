@@ -15,8 +15,9 @@ String isolate(String value) => '$_leftToRightIsolate$value$_popDirectionalIsola
 /// and `6,9 m/s`, and its times as `07:46`. Unit symbols (km/h, m/s, mph) are international and
 /// are not translated.
 ///
-/// [languageCode] is only `en`, `tr` or `ar`, never the phone's full locale: `intl`'s `ar` data
-/// uses Latin digits, as the product asks, while `ar_EG` would write `٦٩`. A test guards it.
+/// [languageCode] is only `en`, `tr` or `ar`, never the phone's full locale: `intl`'s `ar` number
+/// data uses Latin digits, as the product asks, while `ar_EG` would write `٦٩`. Dates are told
+/// not to use native digits, whoever loaded the date data. Tests guard both.
 ///
 /// Times are shown **at the place**: the instant plus the forecast's [utcOffset] (ADR-0015), so
 /// Istanbul's sunrise is right on a phone set to London.
@@ -27,8 +28,11 @@ final class WeatherFormatter {
         ..maximumFractionDigits = 1
         ..minimumFractionDigits = 1,
       _percent = NumberFormat.percentPattern(languageCode),
-      _time = DateFormat.jm(languageCode),
-      _weekday = DateFormat.EEEE(languageCode);
+      // Latin digits in times too. intl's own `ar` data already uses them, but in the app
+      // Flutter's Material localizations load their own date data, where `ar` writes ٧:٢٩. The
+      // Arabic screenshots found it (step 07); a test now loads that data first.
+      _time = DateFormat.jm(languageCode)..useNativeDigits = false,
+      _weekday = DateFormat.EEEE(languageCode)..useNativeDigits = false;
 
   final Duration utcOffset;
   final NumberFormat _whole;
