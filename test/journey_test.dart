@@ -38,7 +38,7 @@ void main() {
     await app.start(tester);
     await tester.tap(find.byTooltip('Settings'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('°F'));
+    await tester.tap(find.byKey(const Key('settings.option.fahrenheit')));
     await tester.pumpAndSettle();
     await tester.pageBack();
     await tester.pumpAndSettle();

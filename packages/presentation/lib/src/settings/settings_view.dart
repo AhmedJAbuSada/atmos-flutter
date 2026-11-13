@@ -1,6 +1,7 @@
 import 'package:atmos_domain/atmos_domain.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../formatting/weather_formatter.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/atmos_colors.dart';
 
@@ -54,13 +55,15 @@ class SettingsView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsetsDirectional.all(AtmosSpacing.m),
         children: [
+          // Unit symbols are left-to-right values: without isolates, Arabic shows "°C" as "C°"
+          // (the step-07 screenshots found it, like the Android app's "°11").
           _Choice<TemperatureUnit>(
             key: const Key('settings.temperature'),
             title: l10n.settingsTemperature,
             selected: settings.temperatureUnit,
             options: {
-              TemperatureUnit.celsius: l10n.settingsUnitCelsius,
-              TemperatureUnit.fahrenheit: l10n.settingsUnitFahrenheit,
+              TemperatureUnit.celsius: isolate(l10n.settingsUnitCelsius),
+              TemperatureUnit.fahrenheit: isolate(l10n.settingsUnitFahrenheit),
             },
             onChanged: (unit) => onEvent(SettingsTemperatureUnitChanged(unit)),
           ),
@@ -69,9 +72,9 @@ class SettingsView extends StatelessWidget {
             title: l10n.settingsWindSpeed,
             selected: settings.windSpeedUnit,
             options: {
-              WindSpeedUnit.kilometersPerHour: l10n.settingsUnitKilometersPerHour,
-              WindSpeedUnit.metersPerSecond: l10n.settingsUnitMetersPerSecond,
-              WindSpeedUnit.milesPerHour: l10n.settingsUnitMilesPerHour,
+              WindSpeedUnit.kilometersPerHour: isolate(l10n.settingsUnitKilometersPerHour),
+              WindSpeedUnit.metersPerSecond: isolate(l10n.settingsUnitMetersPerSecond),
+              WindSpeedUnit.milesPerHour: isolate(l10n.settingsUnitMilesPerHour),
             },
             onChanged: (unit) => onEvent(SettingsWindSpeedUnitChanged(unit)),
           ),
