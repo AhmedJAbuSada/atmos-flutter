@@ -72,6 +72,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      # Caches Gradle's downloads between runs: Maven Central throttles shared runners (429).
+      - uses: gradle/actions/setup-gradle@v5
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -105,6 +107,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      # Caches Gradle's downloads between runs: Maven Central throttles shared runners (429).
+      - uses: gradle/actions/setup-gradle@v5
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
