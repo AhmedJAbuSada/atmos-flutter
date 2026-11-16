@@ -4,12 +4,41 @@
 tutorial on professional Flutter development with Clean Architecture and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 07 of 7 — Quality & release: prove it works the way users get it
+
+`step-07-quality-release` · [← Step 06](https://github.com/AhmedJAbuSada/atmos-flutter/tree/step-06-integration) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** Proof that the built app works, and the app ready to ship. On a Pixel 7-sized Android emulator in CI, the real release APK (R8, obfuscated Dart) must start and stay up, and the main journey (`integration_test`, profile mode, real API) runs in English, Turkish and Arabic with the language set as the user sets it. CI records 15 screenshots on request; reading them found two Arabic bugs that 352 tests had missed (Arabic-Indic digits in times, and `C°` for `°C`), both fixed with tests. Plus an iOS Release build, a privacy manifest that declares coarse location, version 1.0.0, a changelog and a release checklist.
+
+**Why it matters.** Tests in the engine cannot prove the native build, R8, the plugins on a real OS, the network or right to left on a real screen. The step also shows how to make device tests explain their failures (two red runs, each understood from its annotation alone), why the journey runs in profile mode (ADR-0018), and that screenshots are tests a person reads.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `integration_test/journey_test.dart` | The device journey, by key, in every language |
+| `scripts/device-tests.sh` | Release smoke test, then the journey per language |
+| `.github/workflows/ci.yml` | Release APK, emulator job, screenshots, iOS Release |
+| `docs/screenshots/` | Recorded by CI, reviewed by eye, Arabic first |
+| `docs/process/RELEASE_CHECKLIST.md` | Ship it without keys in the repository |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/07-quality-release.md](docs/steps/07-quality-release.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 06](https://github.com/AhmedJAbuSada/atmos-flutter/compare/step-06-integration...step-07-quality-release).
+3. **Run it:**
+   ```bash
+   flutter pub get
+   tool/test_all.sh
+   flutter build apk --release --obfuscate --split-debug-info=build/symbols
+   ./scripts/device-tests.sh   # with an Android 13+ emulator running
+   ```
+4. **Try the exercise:** Remove `..useNativeDigits = false` from `WeatherFormatter` and run `flutter test` in `packages/presentation`: which test fails, and why does `weather_formatter_test.dart` not notice? Then look at `docs/screenshots/android-ar/` and find three things that mirror and three that must not.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-flutter).
+
+---
 <!-- step-banner:end -->
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.50-02569B?logo=flutter&logoColor=white)
