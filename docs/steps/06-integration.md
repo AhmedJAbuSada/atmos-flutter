@@ -1,6 +1,6 @@
 # Step 06 — Integration: the app works end to end (Flutter)
 
-**Branch:** `step-06-integration` · **Previous:** [step 05](05-presentation-ui.md) · **Next:** step 07, quality and release
+**Branch:** `step-06-integration` · **Previous:** [step 05](05-presentation-ui.md) · **Next:** [step 07, quality and release](07-quality-release.md)
 
 Steps 03 to 05 built three layers that did not know each other: the rules, the data, the views.
 This step connects them. **View models** (Riverpod `Notifier`s) turn use-case results into the

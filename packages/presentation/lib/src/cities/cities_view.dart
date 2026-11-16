@@ -101,6 +101,7 @@ class _CitiesViewState extends State<CitiesView> {
             title: Text(city.name),
             subtitle: _placeLine(city) == null ? null : Text(_placeLine(city) ?? ''),
             trailing: IconButton(
+              key: Key('cities.add.${city.id}'),
               icon: const Icon(Icons.add),
               tooltip: l10n.citiesAdd(city.name),
               onPressed: () => _send(CitiesAdd(city)),

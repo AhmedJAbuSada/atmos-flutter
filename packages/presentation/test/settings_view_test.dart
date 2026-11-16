@@ -37,8 +37,8 @@ void main() {
 
       testWidgets('each choice reports the new value (US-08)', (tester) async {
         final events = await show(tester, UserSettings.defaults);
-        await tester.tap(find.text(l10n.settingsUnitFahrenheit));
-        await tester.tap(find.text(l10n.settingsUnitMetersPerSecond));
+        await tester.tap(find.text(isolate(l10n.settingsUnitFahrenheit)));
+        await tester.tap(find.text(isolate(l10n.settingsUnitMetersPerSecond)));
         await tester.tap(find.text(l10n.settingsThemeLight));
         expect(events.sent, [
           isA<SettingsTemperatureUnitChanged>().having(
@@ -53,6 +53,15 @@ void main() {
           ),
           isA<SettingsThemeChanged>().having((e) => e.theme, 'theme', AppTheme.light),
         ]);
+      });
+
+      testWidgets('unit symbols keep their order in every language ("°C", never "C°")', (
+        tester,
+      ) async {
+        await show(tester, UserSettings.defaults);
+        for (final symbol in ['°C', '°F', 'km/h', 'm/s', 'mph']) {
+          expect(find.text(isolate(symbol)), findsOneWidget, reason: symbol);
+        }
       });
 
       testWidgets('the language row shows the language and opens the system page (ADR-0005)', (
