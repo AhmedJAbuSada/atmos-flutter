@@ -75,9 +75,12 @@ Future<void> waitFor(WidgetTester tester, Finder finder, {required int seconds})
     await tester.pump(const Duration(milliseconds: 250));
     if (finder.evaluate().isNotEmpty) return;
   }
+  // RichText, not Text: Text.rich and many Material widgets draw through RichText, so this sees
+  // every text on screen. An empty list then really means no text (for example the skeleton).
   final texts = [
-    for (final element in find.byType(Text).evaluate())
-      if (element.widget case Text(:final data?)) data,
+    for (final element in find.byType(RichText).evaluate())
+      if ((element.widget as RichText).text.toPlainText() case final text when text.isNotEmpty)
+        text,
   ];
   fail('Not found after $seconds s: $finder. Texts on screen: ${texts.take(15).join(' | ')}');
 }
